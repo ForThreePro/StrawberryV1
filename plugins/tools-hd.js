@@ -5,14 +5,11 @@ async function stellarUpscale(buffer, scale, key) {
   let form = new FormData()
   form.append('file', buffer, { filename: `upscale-${scale}.jpg`, contentType: 'image/jpeg' })
   let url = `https://api.stellarwa.xyz/tools/upscale?method=local&scale=${scale}&key=${key}`
-
-  let { data, headers } = await axios.post(url, form, {
+  let { data } = await axios.post(url, form, {
     headers: form.getHeaders(),
     responseType: 'arraybuffer',
     timeout: 90000
   })
-
-  // Si devuelve JSON con URL
   let str = data.toString('utf8').slice(0, 500)
   if (str.trim().startsWith('{')) {
     try {
@@ -31,40 +28,51 @@ let handler = async (m, { conn, usedPrefix }) => {
   let q = m.quoted ? m.quoted : m
   let mime = (q.msg || q).mimetype || ''
   if (!/image/.test(mime)) {
-    return conn.reply(m.chat, `‧˚꒰🎃୭ 𓆩 𝗟𝗨𝗫 𝗫 𝗬𝗔𝗟𝗜𝗖𝗢 𓆪 🍕\n*Garfield Halloween Edition*\n\n💅 Responde a una imagen con *${usedPrefix}hd*\n\n> 🍕 Hará: x2 y luego automático a x4`, m)
+    return conn.reply(m.chat, 
+`‧˚꒰🍓୭ 𓆩 𝗦𝗧𝗥𝗔𝗪𝗕𝗘𝗥𝗥𝗬 𝗕𝗢𝗧 𓆪 🎀
+*Halloween Coquette Edition*
+
+💋 Oops! Responde a una fotito con *${usedPrefix}hd* preciosa
+
+> 🍓 Haré magia: x2 → x4 automático
+> 🎀 Quedará super HD y coqueta`, m)
   }
 
-  let key = 'api-b9YNP'
-
+  let key = 'proyectsV2'
   try {
-    await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+    await conn.sendMessage(m.chat, { react: { text: '🍓', key: m.key } })
     let media = await q.download()
 
-    // PASO 1: x2
-    await conn.reply(m.chat, '‧˚꒰🎃୭ 𓆩 𝗟𝗨𝗫 𝗫 𝗬𝗔𝗟𝗟𝗜𝗖𝗢 𓆪 🍕\n\n👻 *PASO 1/2:* Mejorando a x2...', m)
+    await conn.reply(m.chat, 
+`‧˚꒰🍓୭ 𓆩 𝗦𝗧𝗥𝗔𝗪𝗕𝗘𝗥𝗥𝗬 𝗕𝗢𝗧 𓆪 🎀
+
+👻 *PASO 1/2:* Mejorando tu fotito a x2...
+💅 Espera un poquito, reina.`, m)
     let firstHD = await stellarUpscale(media, 2, key)
 
-    // PASO 2: x2 de nuevo = x4 total
-    await conn.reply(m.chat, '‧˚꒰✨୭ 𓆩 𝗟𝗨𝗫 𝗫 𝗬𝗔𝗟𝗟𝗜𝗖𝗢 𓆪 🍕\n\n🎃 *PASO 2/2:* Mejorando a x4 automático...', m)
+    await conn.reply(m.chat, 
+`‧˚꒰🍓୭ 𓆩 𝗦𝗧𝗥𝗔𝗪𝗕𝗘𝗥𝗥𝗬 𝗕𝗢𝗧 𓆪 🎀
+
+🎃 *PASO 2/2:* Ahora a x4... casi lista para tu Insta coquette.`, m)
     let finalHD = await stellarUpscale(firstHD, 2, key)
 
-    await conn.sendFile(m.chat, finalHD, 'hd-x4.jpg', 
-`‧˚꒰🎃୭ 𓆩 *HD x4 COMPLETADO* 𓆪 🍕
+    await conn.sendFile(m.chat, finalHD, 'strawberry-hd.jpg', 
+`‧˚꒰🍓୭ 𓆩 *HD x4 COMPLETADO* 𓆪 🎀
 
-> ✿ x2 → x4 automático
-> ✿ Lux X Yallico | Garfield Halloween
-> ✿ Stellar API`, m)
+> ✿ Listo, hermosa! ${m.pushName} 🍓
+> ✿ x2 → x4 automático | Coquette Magic
+> ✿ Strawberry Bot | Halloween Edition
+> ✿ Hecha con amor y fresitas 👻🎀`, m)
 
-    await conn.sendMessage(m.chat, { react: { text: '🎃', key: m.key } })
-
+    await conn.sendMessage(m.chat, { react: { text: '🎀', key: m.key } })
   } catch (e) {
     console.error(e)
     await conn.sendMessage(m.chat, { react: { text: '💔', key: m.key } })
-    conn.reply(m.chat, `‧˚꒰🎃୭ 𓆩 𝗟𝗨𝗫 𝗫 𝗬𝗔𝗟𝗟𝗜𝗖𝗢 𓆪 🍕\n\n💔 Error: ${e.message}`, m)
+    conn.reply(m.chat, `‧˚꒰🍓୭ 𓆩 𝗦𝗧𝗥𝗔𝗪𝗕𝗘𝗥𝗥𝗬 𝗕𝗢𝗧 𓆪 🎀\n\n💔 Oopsie, hubo un error: ${e.message}\n> Intenta de nuevo, fresita.`, m)
   }
 }
 
 handler.help = ['hd']
 handler.tags = ['tools']
-handler.command = ['hd', 'upscale', 'mejorar', 'remini']
+handler.command = ['hd', 'upscale', 'mejorar', 'remini', 'strawberryhd']
 export default handler
