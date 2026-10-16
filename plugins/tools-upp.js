@@ -14,7 +14,7 @@ let handler = async (m, { conn }) => {
   let mime = (q.msg || q).mimetype || ''
   if (!mime) {
     await react('🍓')
-    return conn.reply(m.chat, `‧˚꒰🍓୭ 𓆩 𝗦𝗧𝗥𝗔𝗪𝗕𝗘𝗥𝗬 𝗕𝗢𝗧 𓆪 🎀\n\n⤷ ┇ 𝐔𝐏𝐋𝐎𝐀𝐃𝐄𝐑 ﹒ USO ：✿ 。\n꒰ ◞⁺⊹ ．${fecha}\n\n➛ Responde a una *imagen, video, audio o documento* para subirlo, fresita. 👻🎀`, m)
+    return conn.reply(m.chat, `‧˚꒰🍓୭ 𓆩 𝗦𝗧𝗥𝗔𝗪𝗕𝗘𝗥𝗥𝗬 𝗕𝗢𝗧 𓆪 🎀\n\n⤷ ┇ 𝐔𝐏𝐋𝐎𝐀𝐃𝐄𝐑 ﹒ USO ：✿ 。\n꒰ ◞⁺⊹ ．${fecha}\n\n➛ Responde a una *imagen, video, audio o documento* para subirlo, fresita. 👻🎀`, m)
   }
 
   try {
